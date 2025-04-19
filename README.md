@@ -25,8 +25,8 @@ No nosso projeto, utilizamos o A* para buscar caminhos em um mapa representado p
 ### 1. Clone o repositório:
 
 bash
-git clone https://github.com/seu-usuario/nome-do-repo.git
-cd nome-do-repo
+git clone https://github.com/WillianDias1/Busca-A-estrela-.git
+cd Busca-A-estrela-
 
 ### 2. Requisitos
 Python 3.x instalado
