@@ -1,13 +1,35 @@
 import heapq
 
+def is_valid(grid, x, y):
+    return 0 <= x < len(grid) and 0 <= y < len(grid[0]) and grid[x][y] == 0
+
+def can_move_diagonally(grid, curr, dx, dy):
+    x, y = curr
+    nx, ny = x + dx, y + dy
+
+    # Verifica se ponto destino está livre
+    if not is_valid(grid, nx, ny):
+        return False
+
+    # Verifica se os dois vizinhos ortogonais estão livres
+    if dx != 0 and dy != 0:
+        if grid[x + dx][y] == 1 or grid[x][y + dy] == 1:
+            return False
+
+    return True
+
 def a_star_search(grid, start, end, heuristic):
-    rows, cols = len(grid), len(grid[0])
     open_set = []
     heapq.heappush(open_set, (0, start))
-    
+
     came_from = {}
     g_score = {start: 0}
     f_score = {start: heuristic(start, end)}
+
+    directions = [  # 8 direções
+        (-1, 0), (1, 0), (0, -1), (0, 1),
+        (-1, -1), (-1, 1), (1, -1), (1, 1)
+    ]
 
     while open_set:
         _, current = heapq.heappop(open_set)
@@ -20,11 +42,16 @@ def a_star_search(grid, start, end, heuristic):
             path.append(start)
             return path[::-1]
 
-        for dx, dy in [(-1,0),(1,0),(0,-1),(0,1)]:
+        for dx, dy in directions:
             neighbor = (current[0] + dx, current[1] + dy)
 
-            if (0 <= neighbor[0] < rows and 0 <= neighbor[1] < cols and
-                grid[neighbor[0]][neighbor[1]] == 0):
+            if 0 <= neighbor[0] < len(grid) and 0 <= neighbor[1] < len(grid[0]):
+                if (dx == 0 or dy == 0):  # ortogonal
+                    if not is_valid(grid, neighbor[0], neighbor[1]):
+                        continue
+                else:  # diagonal
+                    if not can_move_diagonally(grid, current, dx, dy):
+                        continue
 
                 tentative_g = g_score[current] + 1
 
