@@ -26,6 +26,7 @@ No nosso projeto, utilizamos o A* para buscar caminhos em um mapa representado p
 
 bash
 git clone https://github.com/WillianDias1/Busca-A-estrela-.git
+
 cd Busca-A-estrela-
 
 ### 2. Requisitos
